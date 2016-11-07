@@ -20,10 +20,8 @@
 package springfox.documentation.spring.web.readers.operation;
 
 import com.fasterxml.classmate.ResolvedType;
-import com.fasterxml.classmate.TypeResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -44,12 +42,6 @@ import static springfox.documentation.schema.ResolvedTypes.*;
 public class OperationModelsProvider implements OperationModelsProviderPlugin {
 
   private static final Logger LOG = LoggerFactory.getLogger(OperationModelsProvider.class);
-  private final TypeResolver typeResolver;
-
-  @Autowired
-  public OperationModelsProvider(TypeResolver typeResolver) {
-    this.typeResolver = typeResolver;
-  }
 
   @Override
   public void apply(RequestMappingContext context) {

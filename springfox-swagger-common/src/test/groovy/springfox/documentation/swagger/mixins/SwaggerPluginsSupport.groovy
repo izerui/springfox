@@ -66,7 +66,7 @@ class SwaggerPluginsSupport {
     plugins.resourceGroupingStrategies = create([new ClassOrApiAnnotationResourceGrouping()])
     plugins.apiListingScanners = create([])
     plugins.operationModelsProviders = create([
-        new OperationModelsProvider(resolver),
+        new OperationModelsProvider(),
         new SwaggerOperationModelsProvider(resolver)])
     plugins.defaultsProviders = create(swaggerDefaultsPlugins)
     return plugins

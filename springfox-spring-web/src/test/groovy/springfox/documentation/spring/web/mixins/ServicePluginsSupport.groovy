@@ -47,7 +47,7 @@ class ServicePluginsSupport {
     plugins.parameterPlugins = create([new ParameterNameReader()])
     plugins.operationBuilderPlugins = create([])
     plugins.resourceGroupingStrategies = create([])
-    plugins.operationModelsProviders = create([new OperationModelsProvider(resolver)])
+    plugins.operationModelsProviders = create([new OperationModelsProvider()])
     plugins.defaultsProviders = create([])
     plugins.apiListingScanners = create([])
     plugins.pathDecorators = create([
@@ -76,7 +76,7 @@ class ServicePluginsSupport {
     plugins.parameterPlugins = create(paramPlugins)
     plugins.operationBuilderPlugins = create(operationPlugins)
     plugins.resourceGroupingStrategies = create(groupingStrategyPlugins)
-    plugins.operationModelsProviders = create([new OperationModelsProvider(resolver)])
+    plugins.operationModelsProviders = create([new OperationModelsProvider()])
     plugins.defaultsProviders = create(defaultProviderPlugins)
     plugins.pathDecorators = create(pathDecorators)
     plugins.apiListingScanners = create([])
