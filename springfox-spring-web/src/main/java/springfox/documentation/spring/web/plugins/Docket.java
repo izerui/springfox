@@ -23,6 +23,8 @@ import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Ordering;
 import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.PathProvider;
@@ -94,6 +96,7 @@ public class Docket implements DocumentationPlugin {
   private Optional<String> pathMapping = Optional.absent();
   private ApiSelector apiSelector = ApiSelector.DEFAULT;
   private boolean enableUrlTemplating = false;
+  private Predicate<ResolvedType> isomorphicTypesPredicate = Predicates.alwaysFalse();
 
   public Docket(DocumentationType documentationType) {
     this.documentationType = documentationType;
@@ -411,6 +414,19 @@ public class Docket implements DocumentationPlugin {
   }
 
   /**
+   * By default springfox infers properties on a bean differently based on whether it is used in an input or an
+   * output context.
+   *
+   * @param isomorphicTypesPredicate Predicate that determines if we want to treat a particular type as a union of
+   *                                 input properties and response properties.
+   * @return this
+   */
+  public Docket isomorphicTypesPredicate(Predicate<ResolvedType> isomorphicTypesPredicate) {
+    this.isomorphicTypesPredicate = isomorphicTypesPredicate;
+    return this;
+  }
+
+  /**
    * Initiates a builder for api selection.
    *
    * @return api selection builder. To complete building the api selector, the build method of the api selector
@@ -452,6 +468,7 @@ public class Docket implements DocumentationPlugin {
         .enableUrlTemplating(enableUrlTemplating)
         .additionalModels(additionalModels)
         .tags(tags)
+        .isomorphicTypesPredicate(isomorphicTypesPredicate)
         .build();
   }
 

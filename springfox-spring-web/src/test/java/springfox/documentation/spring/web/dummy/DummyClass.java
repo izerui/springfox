@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
+import springfox.documentation.schema.Category;
 import springfox.documentation.spring.web.dummy.DummyModels.Ignorable;
 import springfox.documentation.spring.web.dummy.models.EnumType;
 import springfox.documentation.spring.web.dummy.models.Example;
@@ -67,6 +68,10 @@ public class DummyClass {
   }
 
   public void dummyMethod() {
+    throw new UnsupportedOperationException();
+  }
+
+  public void methodWithIsomorphicType(@RequestBody Category category) {
     throw new UnsupportedOperationException();
   }
 

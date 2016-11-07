@@ -23,6 +23,7 @@ import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Ordering;
 import org.springframework.core.OrderComparator;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -83,6 +84,7 @@ public class DocumentationContextBuilder {
   private GenericTypeNamingStrategy genericsNamingStrategy;
   private Optional<String> pathMapping;
   private boolean isUrlTemplatesEnabled;
+  private Predicate<ResolvedType> isomorphicTypesPredicate;
 
   public DocumentationContextBuilder(DocumentationType documentationType) {
     this.documentationType = documentationType;
@@ -247,6 +249,11 @@ public class DocumentationContextBuilder {
     return this;
   }
 
+  public DocumentationContextBuilder isomorphicTypesPredicate(Predicate<ResolvedType> isomorphicTypesPredicate) {
+    this.isomorphicTypesPredicate = isomorphicTypesPredicate;
+    return this;
+  }
+
   public DocumentationContext build() {
     Map<RequestMethod, List<ResponseMessage>> responseMessages = aggregateResponseMessages();
     OrderComparator.sort(rules);
@@ -274,7 +281,8 @@ public class DocumentationContextBuilder {
         pathMapping,
         isUrlTemplatesEnabled,
         additionalModels,
-        tags);
+        tags,
+        isomorphicTypesPredicate);
   }
 
   private Function<Function<TypeResolver, AlternateTypeRule>, AlternateTypeRule>

@@ -81,6 +81,10 @@ public class OperationModelsProvider implements OperationModelsProviderPlugin {
           ResolvedType modelType = context.alternateFor(parameterType.getParameterType());
           LOG.debug("Adding input parameter of type {}", resolvedTypeSignature(modelType).or("<null>"));
           context.operationModelsBuilder().addInputParam(modelType);
+          if (context.isIsomorphic(modelType)) {
+            LOG.debug("Adding response type {}", resolvedTypeSignature(modelType).or("<null>"));
+            context.operationModelsBuilder().addReturn(modelType);
+          }
         }
     }
     LOG.debug("Finished reading parameters models for handlerMethod |{}|", context.getName());

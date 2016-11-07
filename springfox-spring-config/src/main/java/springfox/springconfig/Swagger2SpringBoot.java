@@ -19,7 +19,9 @@
 
 package springfox.springconfig;
 
+import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
+import com.google.common.base.Predicate;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -48,6 +50,7 @@ import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.petstore.controller.PetController;
+import springfox.petstore.model.Category;
 
 import java.util.List;
 
@@ -101,7 +104,17 @@ public class Swagger2SpringBoot {
                 .build()))
         .tags(new Tag("Pet Service", "All apis relating to pets")) // <25>
         .additionalModels(typeResolver.resolve(AdditionalModel.class)) //<26>
+        .isomorphicTypesPredicate(categoryType()) //<27>
         ;
+  }
+
+  private Predicate<ResolvedType> categoryType() {
+    return new Predicate<ResolvedType>() {
+      @Override
+      public boolean apply(ResolvedType input) {
+        return Category.class.isAssignableFrom(input.getErasedType());
+      }
+    };
   }
 
   @Autowired

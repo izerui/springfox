@@ -17,8 +17,12 @@
  *
  */
 package springfox.documentation.swagger.readers.operation
+
+import com.fasterxml.classmate.ResolvedType
 import com.fasterxml.classmate.TypeResolver
+import com.google.common.base.Predicate
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo
+import springfox.documentation.schema.Category
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.RequestMappingContext
 import springfox.documentation.spring.web.WebMvcRequestHandler
@@ -32,6 +36,12 @@ class SwaggerOperationModelsProviderSpec extends DocumentationContextSpec {
       RequestMappingInfo requestMappingInfo = requestMappingInfo("/doesNotMatterForThisTest",
           [patternsRequestCondition: patternsRequestCondition('/somePath/{businessId}', '/somePath/{businessId:\\d+}')]
       )
+      contextBuilder.isomorphicTypesPredicate(new Predicate<ResolvedType>() {
+        @Override
+        boolean apply(ResolvedType input) {
+          return Category.isAssignableFrom(input.erasedType)
+        }
+      })
       RequestMappingContext requestContext = new RequestMappingContext(
           context(),
           new WebMvcRequestHandler(
@@ -55,5 +65,6 @@ class SwaggerOperationModelsProviderSpec extends DocumentationContextSpec {
       'methodApiResponseClass'              | 2
       'methodAnnotatedWithApiResponse'      | 2
   }
+
 
 }

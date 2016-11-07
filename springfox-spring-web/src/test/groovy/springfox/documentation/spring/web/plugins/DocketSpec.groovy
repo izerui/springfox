@@ -21,6 +21,7 @@ package springfox.documentation.spring.web.plugins
 
 import com.fasterxml.classmate.ResolvedType
 import com.google.common.base.Optional
+import com.google.common.base.Predicate
 import com.google.common.collect.Ordering
 import org.joda.time.LocalDate
 import org.springframework.aop.framework.AbstractSingletonProxyFactoryBean
@@ -189,6 +190,7 @@ class DocketSpec extends DocumentationContextSpec {
       'enableUrlTemplating'   | true                                            | 'isUriTemplatesEnabled'
       'tags'                  | new Tag("test", "test")                         | 'tags'
       'globalOperationParameters' | [Mock(Parameter)]                           | 'globalOperationParameters'
+      'isomorphicTypesPredicate'  | Mock(Predicate)                             | 'isomorphicTypesPredicate'
   }
 
   def "Code generation strategy property is set"() {

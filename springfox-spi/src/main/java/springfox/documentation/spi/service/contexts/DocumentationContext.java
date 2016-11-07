@@ -21,6 +21,7 @@ package springfox.documentation.spi.service.contexts;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,6 +67,7 @@ public class DocumentationContext {
   private final Optional<String> pathMapping;
   private final Set<ResolvedType> additionalModels;
   private final Set<Tag> tags;
+  private final Predicate<ResolvedType> isomorphicTypesPredicate;
   private Set<String> produces;
   private Set<String> consumes;
   private String host;
@@ -96,7 +98,7 @@ public class DocumentationContext {
       Optional<String> pathMapping,
       boolean isUriTemplatesEnabled,
       Set<ResolvedType> additionalModels,
-      Set<Tag> tags) {
+      Set<Tag> tags, Predicate<ResolvedType> isomorphicTypesPredicate) {
 
     this.documentationType = documentationType;
     this.handlerMappings = handlerMappings;
@@ -123,6 +125,7 @@ public class DocumentationContext {
     this.additionalModels = additionalModels;
     this.tags = tags;
     this.alternateTypeProvider = new AlternateTypeProvider(alternateTypeRules);
+    this.isomorphicTypesPredicate = isomorphicTypesPredicate;
   }
 
   public DocumentationType getDocumentationType() {
@@ -228,5 +231,10 @@ public class DocumentationContext {
 
   public Set<Tag> getTags() {
     return tags;
+  }
+
+
+  public boolean isIsomorphicType(ResolvedType modelType) {
+    return isomorphicTypesPredicate.apply(modelType);
   }
 }

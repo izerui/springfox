@@ -209,4 +209,8 @@ public class RequestMappingContext {
   public RequestHandlerKey key() {
     return handler.key();
   }
+
+  public boolean isIsomorphic(ResolvedType modelType) {
+    return documentationContext.isIsomorphicType(modelType);
+  }
 }
