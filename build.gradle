@@ -1,6 +1,6 @@
 buildscript {
   repositories {
-    jcenter()
+    maven{ url 'http://maven.aliyun.com/nexus/content/groups/public'}
   }
 
   dependencies {
@@ -31,6 +31,7 @@ subprojects {
   apply plugin: 'groovy' //gradle groovy plugin extends the java plugin
   apply plugin: 'com.github.adrianbk.jvmsrc'
   apply plugin: 'checkstyle'
+  apply plugin: 'maven'
 
   javadoc {
     options.encoding = 'UTF-8'
@@ -43,7 +44,7 @@ subprojects {
     apply from: "$rootDir/gradle/publishing.gradle"
   }
   repositories {
-    jcenter()
+    maven{ url 'http://maven.aliyun.com/nexus/content/groups/public'}
   }
 
   checkstyle {
@@ -86,6 +87,19 @@ subprojects {
     }
   }
   task allDeps(type: DependencyReportTask) {}
+
+  uploadArchives {
+    repositories {
+      mavenDeployer {
+        repository(url: "http://192.168.1.235:8081/repository/maven-snapshots/") {
+          authentication(userName: "admin", password: "admin123")
+        }
+        pom.version = "$project.version"
+        pom.artifactId = "$project.name"
+        pom.groupId = "$project.group"
+      }
+    }
+  }
 
 }
 
