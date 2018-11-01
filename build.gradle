@@ -88,27 +88,7 @@ subprojects {
   }
   task allDeps(type: DependencyReportTask) {}
 
-  task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier 'sources'
-    from sourceSets.main.allSource
-  }
 
-  artifacts {
-    archives sourcesJar
-  }
-
-  uploadArchives {
-    repositories {
-      mavenDeployer {
-        repository(url: "http://192.168.1.235:8081/repository/maven-snapshots/") {
-          authentication(userName: "admin", password: "admin123")
-        }
-        pom.version = "$project.version"
-        pom.artifactId = "$project.name"
-        pom.groupId = "$project.group"
-      }
-    }
-  }
 
 }
 
